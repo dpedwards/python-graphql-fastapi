@@ -279,5 +279,3 @@ Result:
   }
 }
 ```
-
-Contact: davain.edwards@statista.com
