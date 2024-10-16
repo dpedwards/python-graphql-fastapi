@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .  # Dockerfile is located in the root of the project
+    container_name: graphql_app
+    env_file:
+      - ./app/database/.env  # Path to the .env file inside the app/database folder
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory in the container
+    ports:
+      - "8000:8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Only include the database container if DATABASE_TYPE is set to PostgreSQL
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: your_db_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_db_name
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
